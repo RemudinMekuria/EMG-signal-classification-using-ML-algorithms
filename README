@@ -1,1 +1,191 @@
-My Project
+# **EMG Signal Classification using Machine Learning Algorithms**
+
+This repository provides a complete and **reproducible machine-learning pipeline** for classifying EMG (Electromyography) signals using **Neural Networks (MLPClassifier)** and optimized hyperparameters.  
+
+It is designed for **researchers, students, and practitioners** working in biomedical signal processing, machine learning, and intelligent health systems.
+
+---
+
+## 🧠 **Project Overview**
+
+Electromyography (EMG) signals are widely used for gesture recognition, muscle activation analysis, prosthetic control, and clinical diagnostics.  
+In this project, an EMG dataset (`mspca_dwt_27x3600.csv`) is processed and classified using:
+
+- **Scikit-learn’s MLPClassifier**
+- **GridSearchCV** for hyperparameter optimization
+- **StandardScaler** for feature normalization
+- **Confusion matrix & loss curve visualization**
+- Reproducible training through **controlled random seeds**
+
+The workflow demonstrates how different MLP architectures, activation functions, solvers, and learning-rate schedules influence EMG classification accuracy.
+
+---
+
+## 📁 **Dataset**
+
+- File: `mspca_dwt_27x3600.csv`
+- Rows: EMG samples  
+- Features: 27 extracted features per signal  
+- Target: 3-class EMG label (stored in column 27)
+
+---
+
+## 🧩 **Key Features**
+
+### **✔ Fully reproducible results**
+Random seeds are fixed using:
+```python
+os.environ['PYTHONHASHSEED'] = '1'
+tf.random.set_seed(1)
+np.random.seed(1)
+random.seed(1)
+```
+
+### **✔ Preprocessing**
+- Train-test split with fixed `random_state=1`
+- Standard scaling using `StandardScaler()`
+
+### **✔ MLP Neural Network Models**
+Multiple architectures tested:
+```python
+(256, 64, 15, 3)
+(128, 256, 128, 64, 16)
+(32, 64, 64, 64, 32)
+(512, 16, 32, 3, 3)
+(60, 30, 15, 5, 3)
+...
+```
+
+Activation functions tested:
+- `logistic`
+- `tanh`
+- (ReLU available but commented)
+
+Solvers tested:
+- `adam`
+- `sgd`
+- `lbfgs`
+
+### **✔ Model Evaluation**
+- Accuracy scores
+- Confusion matrix
+- Loss curve visualization
+- Best hyperparameters from GridSearchCV
+
+### **✔ Hyperparameter Optimization**
+GridSearch explores:
+- Hidden-layer sizes  
+- Activation functions  
+- Solvers  
+- L2 Regularization (`alpha`)  
+- Learning rate strategies  
+
+---
+
+## 🚀 **Getting Started**
+
+### **1. Install required packages**
+```
+pip install -r requirements.txt
+```
+
+### **2. Run the main script**
+```
+python emg_classifier.py
+```
+
+(Make sure dataset `mspca_dwt_27x3600.csv` is in the working directory.)
+
+---
+
+## 📊 **Outputs**
+
+### **1. Classification accuracy**
+Printed for:
+- Base model  
+- Best estimator from GridSearchCV  
+- Training & test accuracy  
+- Best cross-validation score  
+
+### **2. Confusion Matrix**
+Displays class-level performance.
+
+### **3. Loss Curve**
+Shows convergence behavior of the neural network.
+
+### **4. Best Hyperparameters**
+Automatically printed:
+```python
+clf.best_params_
+clf.best_score_
+```
+
+---
+
+## 🏗 **Repository Structure**
+
+```
+EMG-signal-classification-using-ML-algorithms/
+│
+├── mspca_dwt_27x3600.csv
+├── emg_classifier.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## 🧪 **Example Snippet: Training an MLP Classifier**
+
+```python
+net = MLPClassifier(
+    hidden_layer_sizes=(256, 64, 15, 3),
+    activation="logistic",
+    random_state=1,
+    max_iter=500
+).fit(X_trainscaled, y_train)
+
+print("Accuracy:", net.score(X_testscaled, y_test))
+```
+
+---
+
+## 📈 **GridSearchCV Example**
+
+```python
+clf = GridSearchCV(
+    MLPClassifier(random_state=1),
+    param_grid=tuned_parameters,
+    cv=3,
+    n_jobs=-1,
+    verbose=5
+)
+clf.fit(X_trainscaled, y_train)
+```
+
+---
+
+## 🔬 **Research Applications**
+
+This project can support research in:
+- EMG-based gesture recognition  
+- Biomechanics  
+- Prosthetic control systems  
+- Biomedical engineering  
+- Machine learning for biomedical signals  
+- Neural network architecture optimization  
+
+---
+
+## 📄 **License**
+
+This project is released under the MIT License.
+
+---
+
+## 👤 **Author**
+
+**Dr. Remudin Reshid Mekuria**  
+Associate Professor, Astrophysics & AI  
+Ala-Too International University, Bishkek  
+📧 remudin.mekuria@gmail.com  
